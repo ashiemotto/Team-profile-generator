@@ -2,15 +2,22 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
-const generateManager = require('./generate');
-let employ = []
+
+const generateManager = require('./src/generate');
+
+// libraries 
+const employee = require('./lib/employee'); 
+const manager = require('./lib/manager');
+const engineer = require('./lib/engineer');
+const intern = require('./lib/intern');
+
+let employ1 =[];
+let employ = [];
 
 // questons for employee number one
  const writeToFile = util.promisify(fs.writeFile);
 
-const questionsStart=() => {
-    inquirer
-    .prompt([
+const questionsStart=[
     {
         type: "input",
         message:"What is your name ? ",
@@ -19,49 +26,25 @@ const questionsStart=() => {
     {
         type:'input',
         message:"What is your ID number?",
-        name:'idnumber1',
+        name:'idnumber',
     },
     {
         type:'input',
         message:"what is your email?",
-        name:'email1',
+        name:'email',
     },
-])
-.then ((data)=>{
-    if (data.email1 = " ")
-    {
-        nextEmployee()
-    }
-})
-};
+]
 
-const nextEmployee = () =>{
-     inquirer.prompt([
+const nextEmployee = [
      {
         type: 'list',
         message: 'Do you want to add another employee',
         name: 'employee',
         choices: ['Manager','Engineer','Intern','No more'],
     }
-])
-.then ((data2)=>{
-    if (data2.employee ==='Manager'){
-        questionsManager()
-    }
-    else if (data2.employee === 'Engineer'){
-        questionsEngineer()
-    }
-    else if (data2.employee === 'Intern'){
-        questionsIntern()
-    }
-    else {
-        console.log ("Webpage being created")
-    }
-})
-};
+]
 // manager questions
-const questionsManager = () =>{
-     inquirer.prompt([
+const questionsManager = [
     {
         type: "input",
         message:"What is your name ? ",
@@ -70,12 +53,12 @@ const questionsManager = () =>{
     {
         type:'input',
         message:"What is your ID number?",
-        name:'idnumber2',
+        name:'manageridnumber',
     },
     {
         type:'input',
         message:"what is your email?",
-        name:'email2',
+        name:'manageremail',
     },
     {
         type:'input',
@@ -83,17 +66,9 @@ const questionsManager = () =>{
         name:'office',
     },
    
-])
-.then ((data3)=>{
-    if (data3.office = " ")
-    {
-        nextEmployee()
-    }
-})
-};
+]
 // engineer questions
-const questionsEngineer = () =>{
-     inquirer.prompt([
+const questionsEngineer =[
     {
         type: "input",
         message:"What is your name ? ",
@@ -102,12 +77,12 @@ const questionsEngineer = () =>{
     {
         type:'input',
         message:"What is your ID number?",
-        name:'idnumber3',
+        name:'engineeridnum',
     },
     {
         type:'input',
         message:"what is your email?",
-        name:'email3',
+        name:'eemail',
     },
     {
         type:'input',
@@ -115,17 +90,9 @@ const questionsEngineer = () =>{
         name:'github',
     },
    
-])
-.then ((data4)=>{
-    if (data4.github = " ")
-    {
-        nextEmployee()
-    }
-})
-};
+]
 // intern questions
-const questionsIntern = () =>{
-     inquirer.prompt([
+const questionsIntern =[
     {
         type: "input",
         message:"What is your name ? ",
@@ -134,12 +101,12 @@ const questionsIntern = () =>{
     {
         type:'input',
         message:"What is your ID number?",
-        name:'idnumber4',
+        name:'internidnumber',
     },
     {
         type:'input',
         message:"what is your email?",
-        name:'email4',
+        name:'internemail',
     },
     {
         type:'input',
@@ -147,20 +114,92 @@ const questionsIntern = () =>{
         name:'school',
     },
    
-])
-.then ((data5)=>{
-    if (data5.school = " ")
-    {
-        nextEmployee()
+]
+
+const  startDoc = () => {return inquirer.prompt(questionsStart)}
+const  nextQuestion = () => {return inquirer.prompt(nextEmployee)}
+
+
+
+
+
+
+const addManager = () => {
+    inquirer.prompt (questionsManager)
+.then ((data)=>{
+    employ.push(new manager(data.manager, data.manageridnumber, data.manageremail,data.office));
+    console.log(employ)
+})
+    
+    .then( 
+        () =>{ addNewEmployee()}
+        )
+};
+
+const addEngineer = () =>{
+    inquirer.prompt(questionsEngineer)
+.then ((data)=>{
+    employ.push(new engineer(data.engineer, data.engineeridnum, data.eemail,data.github));
+    console.log(employ)
+})
+    
+    .then( 
+        () =>{ addNewEmployee()}
+        )
+
+};
+
+
+const addIntern = () => {
+    inquirer.prompt(questionsIntern)
+.then ((data)=>{
+    employ.push(new intern(data.intern, data.internidnumber, data.internemail,data.school));
+    console.log(employ)
+})
+    
+    .then( 
+        () =>{ addNewEmployee()}
+        )
+
+};
+const addNewEmployee = () =>{
+    
+    nextQuestion ()
+.then ((data)=>{
+    if (data.employee ==='Manager'){
+        addManager()
+    }
+    else if (data.employee === 'Engineer'){
+        addEngineer()
+    }
+    else if (data.employee === 'Intern'){
+        addIntern()
+    }
+    else {
+        writeFile ()
+        console.log ("Webpage being created")
     }
 })
 };
+
+
 //  function to initialize app
 const init = () => {
-    questionsStart()
-      .then( ()=> {writeToFile('./team.html',)})
-      .then(() => console.log('Successfully wrote to index.html'))
-      .catch((err) => console.error(err));
+    startDoc()
+    .then ((data)=>{
+    employ1.push(new employee(data.employee, data.idnumber, data.email));
+    console.log(employ1)
+})
+    
+    .then( 
+        () =>{ addNewEmployee()}
+        )
+  .catch((err) => console.error(err));
+}
+
+function writeFile (){
+      writeToFile('./dist/team.html',generateManager(employ))
+      console.log('Successfully wrote to index.html');
   };
 
 // Function call to initialize app

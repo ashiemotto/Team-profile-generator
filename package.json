@@ -1,25 +1,30 @@
 {
-  "name": "Team-profile-generator",
+  "name": "team-profile-generator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "inquirer": "^8.0.0",
+    "jest": "^26.6.3",
+    "util": "^0.12.3"
+  },
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ashiemotto/Team-profile-generator.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "ashton",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ashiemotto/Team-profile-generator/issues"
   },
-  "homepage": "https://github.com/ashiemotto/Team-profile-generator#readme",
-  "dependencies": {
-    "fs": "0.0.1-security",
-    "inquirer": "^8.0.0",
-    "util": "^0.12.3"
-  }
+  "homepage": "https://github.com/ashiemotto/Team-profile-generator#readme"
 }
