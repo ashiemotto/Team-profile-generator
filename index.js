@@ -187,8 +187,8 @@ const addNewEmployee = () =>{
 const init = () => {
     startDoc()
     .then ((data)=>{
-    employ1.push(new employee(data.employee, data.idnumber, data.email));
-    console.log(employ1)
+    employ.push(new employee(data.employee, data.idnumber, data.email));
+    console.log(employ)
 })
     
     .then( 

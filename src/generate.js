@@ -24,17 +24,7 @@ const Intern = require('../lib/intern');
                      <h1>My team</h1>
                 </div>
             </div>
-            <div class="container">
-    <div  style="max-width: 18rem; box-shadow: 5px 10px;">
-        <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${employee.name} Employee</div>
-        <div class="card-body card text-dark bg-light ">
-            <ul class="list-group">
-                <li class="list-group-item">ID: ${employee.id}</li>
-                <li class="list-group-item">Email:<a href="mailto:${employee.email}">${employee.email}</a></li>
-            </ul>
-        </div>
-      </div>
-  </div>
+          
            
            ${cards(employ)}
            
@@ -53,8 +43,10 @@ const Intern = require('../lib/intern');
       let webpage ='';
 
     employ.forEach(element => {
-      
-         if (element instanceof Manager){
+        if (element instanceof employee){
+            webpage = webpage.concat(employee1(element));
+        }
+        else if (element instanceof Manager){
             webpage = webpage.concat(createManager(element));
         }
         else if (element instanceof Engineer){
@@ -67,11 +59,23 @@ const Intern = require('../lib/intern');
     return webpage;
   }
 
-
+const employee1 = (employee) =>{
+    return` <div class="container">
+    <div  style="max-width: 18rem; box-shadow: 5px 10px;">
+        <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${employee.name} </div>
+        <div class="card-body card text-dark bg-light ">
+            <ul class="list-group">
+                <li class="list-group-item">ID: ${employee.id}</li>
+                <li class="list-group-item">Email:<a href="mailto:${employee.email}">${employee.email}</a></li>
+            </ul>
+        </div>
+      </div>
+  </div>`;
+}
  const createManager =  (manager) => {
       return `<div class="container">
       <div  style="max-width: 18rem; box-shadow: 5px 10px;">
-          <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${manager.name} Employee</div>
+          <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${manager.name} </div>
           <div class="card-body card text-dark bg-light ">
               <ul class="list-group">
                   <li class="list-group-item">ID: ${manager.id}</li>
@@ -87,12 +91,12 @@ const Intern = require('../lib/intern');
       return`
     <div class="container">
     <div  style="max-width: 18rem; box-shadow: 5px 10px;">
-        <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${engineer.name} Employee</div>
+        <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${engineer.name} </div>
         <div class="card-body card text-dark bg-light ">
             <ul class="list-group">
                 <li class="list-group-item">ID: ${engineer.id}</li>
                 <li class="list-group-item">Email:<a href="mailto:${engineer.email}">${engineer.email}</a></li>
-                <li class="list-group-item">Github: ${engineer.github}</li>
+                <li class="list-group-item">Github:<a href = "https://github.com/${engineer.github}"> ${engineer.github}</a></li>
             </ul>
         </div>
       </div>
@@ -103,7 +107,7 @@ const Intern = require('../lib/intern');
       return`
     <div class="container">
     <div  style="max-width: 18rem; box-shadow: 5px 10px;">
-        <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${intern.name} Employee</div>
+        <div class="card-header card text-white bg-primary "style ="font-size:25px; font-weight:bold;">${intern.name} </div>
         <div class="card-body card text-dark bg-light ">
             <ul class="list-group">
                 <li class="list-group-item">ID: ${intern.id}</li>
